@@ -1,4 +1,6 @@
-class playerobj:
+DEBUG = False
+
+class PlayerObject:
 
     def __init__(self, name=None):
         self.x = 0
@@ -12,4 +14,4 @@ class playerobj:
         self.locked = False
 
 
-player = playerobj(True)
+player = PlayerObject(True)

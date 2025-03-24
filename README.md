@@ -22,6 +22,6 @@ INSTRUCTIONS
 
 Alternatively you can run run.sh or run.cmd depending on your system...
 
--shS '25
+-shS "25
 
 	

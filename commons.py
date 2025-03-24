@@ -20,5 +20,3 @@ board_t = int(round(screen_h / 2 - board_h / 2)) + 50
 board_rect = (board_l, board_t, board_w, board_h)
 border = 50
 board_outer_rect = (board_l - border, board_t - border, board_w + border * 2, board_h + border * 2)
-
-

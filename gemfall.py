@@ -15,7 +15,7 @@ import fader as f
 timer = pg.time.Clock()
 pg.init()
 c.screen = pg.display.set_mode([c.screen_w, c.screen_h], SHOWN)
-pg.display.set_caption('GEMFALL')
+pg.display.set_caption("GEMFALL")
 icon_image = img.diamond_5
 icon_image.set_colorkey((255, 0, 255))
 pg.display.set_icon(icon_image)
@@ -26,7 +26,7 @@ s.play_state = s.PlayState.LOCKED
 s.menu_state = s.MenuState.MAIN
 
 
-class gem:
+class Gem:
 
     def __init__(self, x, y, t):
         self.x = x
@@ -74,7 +74,7 @@ class gem:
 
 
 def newgem(x, y):
-    return gem(int(x * c.block_w), int(y * c.block_h), random.randint(0, c.types - 1))
+    return Gem(int(x * c.block_w), int(y * c.block_h), random.randint(0, c.types - 1))
 
 
 def board_dict(v):
@@ -133,7 +133,7 @@ def set_move_mode():
             if y - 1 == pmy or y + 1 == pmy or y == pmy:
                 s.play_state = s.PlayState.LOCKED
                 s.game_state = s.GameState.ANIMATING
-                an.tgem_list.append(an.t_gem(spos=(y, x), epos=(pmy, pmx), stype=1))
+                an.tgem_list.append(an.Tgem(spos=(y, x), epos=(pmy, pmx), stype=1))
                 en.player.move = False
                 en.player.moving = False
                 return False
@@ -152,7 +152,7 @@ def check_for_dead():
                     s.play_state = s.PlayState.LOCKED
                     s.game_state = s.GameState.ANIMATING
 
-                    to_do = an.t_gem(spos=(y-1, x), epos=(y, x), stype=0)
+                    to_do = an.Tgem(spos=(y-1, x), epos=(y, x), stype=0)
 
                     if id(to_do) not in [id(item) for item in an.tgem_list]:
                         an.tgem_list.append(to_do)
@@ -222,8 +222,8 @@ def check_anim_queue():
 
 
 def view_high_scores():
-    hs_module.scores('Emmett__.ttf', 24)
-    ng_textsurf = img.font.render('press spacebar for new game...', True, (255, 255, 255))
+    hs_module.scores("Emmett__.ttf", 24)
+    ng_textsurf = img.font.render("press spacebar for new game...", True, (255, 255, 255))
     c.screen.blit(ng_textsurf, (c.screen_w/2 - ng_textsurf.get_width() / 2, c.screen_h - 100))
 
 
@@ -242,7 +242,7 @@ def new_game():
     hs_module.typing_name = False
     start_time = pg.time.get_ticks()
     an.tgem_list.clear()
-    en.player = en.playerobj()
+    en.player = en.PlayerObject()
     s.play_state = s.PlayState.LOCKED
     s.end_state = s.EndState.NORMAL
 
@@ -252,7 +252,7 @@ def new_game():
         for ay in range(0, c.blocks[1]):
             line = []
             for ax in range(0, c.blocks[0]):
-                line.append(gem(int(ax * c.block_w), int(ay * c.block_h), random.randint(0, c.types - 1)))
+                line.append(Gem(int(ax * c.block_w), int(ay * c.block_h), random.randint(0, c.types - 1)))
             c.board.append(line)
     else:
         for line in c.board:
@@ -269,7 +269,7 @@ def new_game():
 
 def begin_zoom():
     s.game_state = s.GameState.ANIMATING
-    font_surface = img.die_font.render('BEGIN', True, (255, 255, 255))
+    font_surface = img.die_font.render("BEGIN", True, (255, 255, 255))
     zoom.zoomed = False
     zoom.add_zoomer(font_surface, c.screen_w / 2, c.screen_h / 2, 1.02, 0.75, rot_start=-300, sca_start=0.1,
                     sca_max=2.0, opacity_delta=-1, opa_min=0.01, persistent=False)
@@ -277,7 +277,7 @@ def begin_zoom():
 
 def end_zoom():
     s.game_state = s.GameState.ANIMATING
-    font_surface = img.die_font.render('YOU DIED', True, (255, 0, 0))
+    font_surface = img.die_font.render("YOU DIED", True, (255, 0, 0))
     zoom.zoomed = False
     zoom.add_zoomer(font_surface, c.screen_w / 2, c.screen_h / 2, 1.01, 1.00, sca_max=2.0, opacity_delta=-1,
                     opa_min=0.01, persistent=False)
@@ -302,7 +302,7 @@ def game_over():
         end_zoom()
 
     if zoom.zoomed and s.end_state == s.EndState.ENDGAME:
-        if hs_module.new_score == 'NO':
+        if hs_module.new_score == "NO":
             s.game_state = s.GameState.HIGH_SCORES
         elif hs_module.new_score is not None:
             s.game_state = s.GameState.HS_TYPING
@@ -320,7 +320,7 @@ def main():
 
     new_game()
 
-    f.faders.append(f.fader(delta=-1, a_cap=100))
+    f.faders.append(f.Fader(delta=-1, a_cap=100))
     s.game_state = s.GameState.FADING
 
     running = True
@@ -336,41 +336,17 @@ def main():
                 if event.key == K_ESCAPE:
                     running = False
 
-                # DEBUG NONSENSE START
-
-                # if event.key == K_b:
-                #     for item in an.tgem_list:
-                #         print(f'vars {vars(item)}')
-                #         print(f'id {id(item)}')
-                #
-                # if event.key == K_k:
-                #     en.player.alive = False
-                #
-                # if event.key == K_p:
-                #     print(f'gamestate {s.game_state}')
-                #     print(f'playstate {s.play_state}')
-                #     print(f'zoomed {zoom.zoomed}')
-                #     print(f'zoomers {len(zoom.zoomers)}')
-                #     print(f'an tgem list size {len(an.tgem_list)}')
-                #     print(f'process tgem {an.process_tgem()}')
-                #
-                #
-                # if event.key == K_d:
-                #     board_dict(0)
-
-                # DEBUG NONSENSE END
-
                 if s.game_state == s.GameState.HS_TYPING:
                     if event.key == K_SPACE:
                         pass
                     elif event.key == K_RETURN:
-                        if hs_module.input_text != '':
+                        if hs_module.input_text != "":
                             en.player.name = hs_module.input_text
                             hs_module.fix_scores(hs_module.new_score, en.player.name, en.player.score)
                             hs_module.save_scores()
                         hs_module.finished_typing = True
                         hs_module.typing_name = False
-                        hs_module.new_score = 'NO'
+                        hs_module.new_score = "NO"
                         s.game_state = s.GameState.HIGH_SCORES
                     elif event.key == K_BACKSPACE:
                         hs_module.input_text = hs_module.input_text[:-1]
@@ -399,9 +375,31 @@ def main():
                 if s.game_state == s.GameState.HIGH_SCORES and s.play_state == s.PlayState.GAME_OVER:
                     if event.key == K_SPACE:
                         hs_module.new_score = None
-                        hs_module.input_text = ''
+                        hs_module.input_text = ""
                         time_left = en.player.time
                         new_game()
+
+                if not en.DEBUG:
+                    continue
+
+                if event.key == K_b:
+                    for item in an.tgem_list:
+                        print(f"vars {vars(item)}")
+                        print(f"id {id(item)}")
+
+                if event.key == K_k:
+                    en.player.alive = False
+
+                if event.key == K_p:
+                    print(f"gamestate {s.game_state}")
+                    print(f"playstate {s.play_state}")
+                    print(f"zoomed {zoom.zoomed}")
+                    print(f"zoomers {len(zoom.zoomers)}")
+                    print(f"an tgem list size {len(an.tgem_list)}")
+                    print(f"process tgem {an.process_tgem()}")
+
+                if event.key == K_d:
+                    board_dict(0)
 
         for row in c.board:
             for block in row:
@@ -416,8 +414,8 @@ def main():
 
         c.screen.fill((40, 40, 60))
         c.screen.blit(img.logo, (175, 10))
-        c.screen.blit(img.font.render(f'TIME: {time_left}', True, 'white'), (30, 30))
-        c.screen.blit(img.font.render(f'SCORE: {en.player.score}', True, 'white'), (30, 60))
+        c.screen.blit(img.font.render(f"TIME: {time_left}", True, "white"), (30, 30))
+        c.screen.blit(img.font.render(f"SCORE: {en.player.score}", True, "white"), (30, 60))
 
         count, delta = draw_board(count, delta)
 
@@ -467,6 +465,6 @@ def main():
         c.delta_time = 0.001 * timer.tick(144)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
     pg.quit()

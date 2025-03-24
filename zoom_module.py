@@ -1,10 +1,10 @@
 import pygame as pg
 
 
-class zoom:
+class Zoom:
 
-    def __init__(self, surface: pg.Surface, x=100, y=100, scale=1.0, rotation=1.0, sca_start=1.0, rot_start=1.0,
-                 sca_max=False, rot_max=False, opacity=255, opacity_delta=0, opa_min=False, persistent=True, blink=False):
+    def __init__(self, surface: pg.Surface, x=100, y=100, scale: float = 1.0, rotation: float = 1.0, sca_start: float = 1.0, rot_start: float = 1.0,
+                 sca_max: float = None, rot_max: float = None, opacity: int = 255, opacity_delta: int = 0, opa_min: int = None, persistent=True, blink=False):
         self.x = x
         self.y = y
         self.surface = surface
@@ -78,7 +78,7 @@ zoomed = False
 def add_zoomer(surface, x, y, scale, rotation, sca_start=1.0, rot_start=1.0, sca_max=False, rot_max=False, opacity=255,
                opacity_delta=0, opa_min=0, persistent=True, blink=False):
 
-    zoomers.append(zoom(surface, x, y, scale, rotation, sca_start, rot_start, sca_max, rot_max, opacity, opacity_delta,
+    zoomers.append(Zoom(surface, x, y, scale, rotation, sca_start, rot_start, sca_max, rot_max, opacity, opacity_delta,
                         opa_min, persistent, blink))
 
 

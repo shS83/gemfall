@@ -50,7 +50,7 @@ class Particle(pygame.sprite.Sprite):
             if time_change > 0:
                 time_change /= 200.0
                 if self.size > 0:
-                    scaled = pygame.transform.smoothscale(self.surface, (self.size*1.5, self.size*1.5))
+                    scaled = pygame.transform.smoothscale(self.surface, (self.size * 1.5, self.size * 1.5))
                     self.image = pygame.transform.rotate(scaled, self.rotdelta)
                 self.image.set_alpha(self.opacity)
                 if self.rotdelta < 0:

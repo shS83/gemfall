@@ -5,12 +5,12 @@ from pygame.locals import *
 timer = pg.time.Clock()
 pg.init()
 c.screen = pg.display.set_mode([c.screen_w, c.screen_h], SHOWN)
-pg.display.set_caption('fader')
+pg.display.set_caption("fader")
 
 faders = []
 
 
-class fader:
+class Fader:
 
     def __init__(self, delta=-1, color=(0, 0, 0), a_cap=0):
         self.surface = pg.Surface((c.screen_w, c.screen_h), SRCALPHA)
@@ -48,10 +48,10 @@ def process_faders():
 def main():
 
     running = True
-    fadein = fader()
-    bg_image = pg.image.load('taustakuva.jpg')
+    fadein = Fader()
+    bg_image = pg.image.load("taustakuva.jpg")
     faderz = [fadein]
-    font = pg.font.SysFont('msgothic', 18)
+    font = pg.font.SysFont("msgothic", 18)
 
     while running:
 
@@ -62,11 +62,11 @@ def main():
                 if event.key == K_ESCAPE:
                     running = False
                 if event.key == K_r:
-                    fadein = fader(delta=-fadein.delta)
+                    fadein = Fader(delta=-fadein.delta)
                     faderz.clear()
                     faderz.append(fadein)
                 if event.key == K_t:
-                    faderz.append(fader(delta=2, color=(255, 0, 0), a_cap=128))
+                    faderz.append(Fader(delta=2, color=(255, 0, 0), a_cap=128))
 
         c.screen.fill((0, 0, 0))
         c.screen.blit(bg_image, (0, 0))
@@ -75,11 +75,11 @@ def main():
             if fade.update():
                 faderz.remove(fade)
 
-        c.screen.blit(font.render(f'faders: {len(faderz)}', True, (255, 255, 255)), (50, 50))
+        c.screen.blit(font.render(f"faders: {len(faderz)}", True, (255, 255, 255)), (50, 50))
         pg.display.flip()
         c.delta_time = 0.001 * timer.tick(144)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
     pg.quit()

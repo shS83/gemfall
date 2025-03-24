@@ -15,28 +15,30 @@ HOME_DIR = os.getcwd()
 
 high_scores = []
 new_score = None
-input_text = ''
+input_text = ""
 finished_typing = False
 typing_name = False
 
 
 def load_scores():
+
     global high_scores
+
     if len(high_scores) < 1:
-        handle = open(f'{HOME_DIR}/gemfall_highscores.txt', 'r')
+        handle = open(f"{HOME_DIR}/gemfall_highscores.txt", "r")
         for line in handle:
             high_scores.append(line.rstrip())
         return True
-
-    else:
-        return False
+    return False
 
 
 def check_score(highscore):
+
     global high_scores, new_score, finished_typing
-    new_score = 'NO'
+    new_score = "NO"
+
     for e in range(0, len(high_scores)-1):
-        user, score = high_scores[e].split(' ')
+        user, score = high_scores[e].split(" ")
         if highscore >= int(score):
             finished_typing = False
             new_score = e
@@ -45,10 +47,12 @@ def check_score(highscore):
 
 
 def fix_scores(index, user, highscore):
+
     global high_scores
+
     for e in range(0, len(high_scores)-1):
         if e == index:
-            high_scores.insert(index, f'{user} {highscore}')
+            high_scores.insert(index, f"{user} {highscore}")
             high_scores.pop()
             return True
     return False
@@ -57,12 +61,12 @@ def fix_scores(index, user, highscore):
 def save_scores():
     global high_scores
     try:
-        handle = open(f'{HOME_DIR}/gemfall_highscores.txt', 'w')
+        handle = open(f"{HOME_DIR}/gemfall_highscores.txt", "w")
         for score in high_scores:
-            handle.write(score + '\n')
+            handle.write(score + "\n")
         return True
     except OSError:
-        print('Could not open/read highscore file')
+        print("Could not open/read highscore file")
         return False
 
 
@@ -72,8 +76,10 @@ def blend_fill(screen, fade_to):
 
 
 def draw_input(color):
+
     global input_text
-    size_surf = font.render('MMMMMMMMMM', True, (0, 0, 0))
+
+    size_surf = font.render("MMMMMMMMMM", True, (0, 0, 0))
     font_w = size_surf.get_width()
     font_h = size_surf.get_height()
     rect_w = font_w + 20
@@ -88,7 +94,7 @@ def draw_input(color):
     input_x = xRES / 2 - text_surface.get_width() / 2
     blit_x = xRES / 2 - alpha_surface.get_width() / 2
     blit_y = yRES - alpha_surface.get_height() / 2 - 200
-    font_surface = font.render('Please enter your name:', True, (255, 255, 255))
+    font_surface = font.render("Please enter your name:", True, (255, 255, 255))
     text_blit_x = xRES / 2 - font_surface.get_width() / 2
     c.screen.blit(font_surface, (text_blit_x, blit_y - 50))
     c.screen.blit(alpha_surface, (blit_x, blit_y))
@@ -99,18 +105,19 @@ def scores(fontname, fsize):
 
     global high_scores
 
-    hs_font = pygame.font.Font(f'{HOME_DIR}/assets/{fontname}', int(round(fsize*1.2)))
-    score_font = pygame.font.Font(f'{HOME_DIR}/assets/{fontname}', fsize)
-    # blend_fill(c.screen, 30)
-    hstext = 'HALL OF FAME'
+    hs_font = pygame.font.Font(f"{HOME_DIR}/assets/{fontname}", int(round(fsize*1.2)))
+    score_font = pygame.font.Font(f"{HOME_DIR}/assets/{fontname}", fsize)
+    hstext = "HALL OF FAME"
     hsblit = hs_font.render(hstext, True, (255, 255, 255))
     hsize = hs_font.size(hstext)
     c.screen.blit(hsblit, (xRES/2-hsize[0]/2, yRES/10))
     maxlen = len(high_scores)
+
     if maxlen > 10:
         maxlen = 10
+
     for i in range(0, maxlen):
-        user, score = high_scores[i].split(' ')
+        user, score = high_scores[i].split(" ")
         usize = score_font.size(user)
         ssize = score_font.size(score)
         userblit = score_font.render(user, True, (255, 255, 255))
