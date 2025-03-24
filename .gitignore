@@ -3,3 +3,5 @@
 .venv
 .venv/
 pyproject.toml
+__pycache__
+.py[cod]
