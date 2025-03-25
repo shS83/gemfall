@@ -1,15 +1,19 @@
 GEMFALL - HOW-TO Start
 
-1. Please install requirements:
+Requirements:
+	- Python 3
+ 	- Pygame
+
+1. Please install requirements (preferably make venv first with "python -m venv .venv; source .venv/bin/activate"):
 
 	pip install -r requirements.txt
 
 2. Start with command:
 
-	python3 gemfall.py
+	python gemfall.py
 
 
-Alternatively you can run run.sh or run.cmd depending on your system. (when I add them in the future)...
+Alternatively you can run run.sh or run.cmd depending on your system...
 
 -shS
 
