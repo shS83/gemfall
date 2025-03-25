@@ -1,3 +1,4 @@
+GEMFALL - HOW-TO Start
 
 1. Please install requirements:
 
@@ -8,7 +9,7 @@
 	python3 gemfall.py
 
 
-Alternatively you can run run.sh or run.cmd depending on your system.
+Alternatively you can run run.sh or run.cmd depending on your system. (when I add them in the future)...
 
 -shS
 
