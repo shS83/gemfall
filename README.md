@@ -1,6 +1,7 @@
 GEMFALL - HOW-TO Start
 
 Requirements:
+
 	- Python 3
  	- Pygame
 
